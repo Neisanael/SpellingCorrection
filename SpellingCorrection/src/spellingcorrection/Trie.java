@@ -1,6 +1,7 @@
 package spellingcorrection;
 
 public class Trie {
+
     private TrieNode root;
 
     public Trie() {
@@ -10,7 +11,15 @@ public class Trie {
     public void insert(String word) {
         TrieNode current = root;
         for (char c : word.toCharArray()) {
+            if (!Character.isLowerCase(c)) {
+                // Skip non-lowercase characters
+                continue;
+            }
             int index = c - 'a';
+            if (index < 0 || index >= 26) {
+                // Skip characters outside the valid range
+                continue;
+            }
             if (current.getChildren()[index] == null) {
                 current.getChildren()[index] = new TrieNode();
             }

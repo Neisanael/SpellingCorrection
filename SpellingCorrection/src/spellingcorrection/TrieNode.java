@@ -6,19 +6,19 @@ public class TrieNode {
     private boolean isEndOfWord;
 
     public TrieNode() {
-        children = new TrieNode[26]; // Using 26 because we assume only lowercase letters in English language
+        children = new TrieNode[26]; // Assuming only lowercase English alphabets
         isEndOfWord = false;
-    }
-
-    public boolean isEndOfWord() {
-        return isEndOfWord;
     }
 
     public TrieNode[] getChildren() {
         return children;
     }
 
-    public void setEndOfWord(boolean isEndOfWord) {
-        this.isEndOfWord = isEndOfWord;
+    public boolean isEndOfWord() {
+        return isEndOfWord;
+    }
+
+    public void setEndOfWord(boolean endOfWord) {
+        isEndOfWord = endOfWord;
     }
 }

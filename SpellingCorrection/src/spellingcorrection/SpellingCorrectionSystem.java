@@ -28,30 +28,29 @@ public class SpellingCorrectionSystem {
     }
 
     private void searchSuggestions(TrieNode node, String target, StringBuilder current, List<String> suggestions) {
-        if (suggestions.size() >= 5) // Return a maximum of 5 word suggestions
-        {
-            return;
-        }
+    if (suggestions.size() >= 5) {
+        return;
+    }
 
-        if (node == null) {
-            return;
-        }
+    if (node == null) {
+        return;
+    }
 
-        if (node.isEndOfWord() && current.length() > 0 && !target.equals(current.toString())) {
+    if (current.length() >= target.length()) {
+        if (node.isEndOfWord() && calculateLevenshteinDistance(current.toString(), target) == 1) {
             suggestions.add(current.toString());
         }
-
-        if (current.length() >= target.length()) {
-            return;
-        }
-
-        for (int i = 0; i < 26; i++) {
-            char c = (char) ('a' + i);
-            current.append(c);
-            searchSuggestions(node.getChildren()[i], target, current, suggestions);
-            current.deleteCharAt(current.length() - 1);
-        }
+        return;
     }
+
+    for (int i = 0; i < 26; i++) {
+        char c = (char) ('a' + i);
+        current.append(c);
+        searchSuggestions(node.getChildren()[i], target, current, suggestions);
+        current.deleteCharAt(current.length() - 1);
+    }
+}
+
 
     public int calculateLevenshteinDistance(String word1, String word2) {
         int m = word1.length();
