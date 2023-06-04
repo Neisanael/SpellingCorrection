@@ -1,9 +1,10 @@
 package spellingcorrection;
-
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
         String[] words = {"cat", "dog", "fish", "bird", "apple", "banana", "tiger", "lion", "elephant", "giraffe",
                 "zebra", "monkey", "bear", "panda", "koala", "kangaroo", "crocodile", "hippopotamus",
                 "rhinoceros", "gorilla", "snake", "turtle", "frog", "lizard", "shark", "whale", "dolphin",
@@ -21,7 +22,8 @@ public class Main {
             trie.insert(word);
         }
 
-        String key = "geek";
+        System.out.print("Enter Teks : ");
+        String key = sc.next();
         if (trie.search(key)) {
             System.out.println("Found: " + key);
         } else {
