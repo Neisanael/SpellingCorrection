@@ -1,46 +1,65 @@
 package spellingcorrection;
 
-public class Trie {
+import java.util.ArrayList;
+import java.util.List;
 
+public class Trie {
     private TrieNode root;
 
     public Trie() {
         root = new TrieNode();
     }
 
-    public void insert(String word) {
-        TrieNode current = root;
-        for (char c : word.toCharArray()) {
-            if (!Character.isLowerCase(c)) {
-                // Skip non-lowercase characters
-                continue;
+    public void insert(String s) {
+        TrieNode temp = root;
+        for (int i = 0; i < s.length(); i++) {
+            if (temp.Trie[s.charAt(i)] == null) {
+                temp.Trie[s.charAt(i)] = new TrieNode();
             }
-            int index = c - 'a';
-            if (index < 0 || index >= 26) {
-                // Skip characters outside the valid range
-                continue;
-            }
-            if (current.getChildren()[index] == null) {
-                current.getChildren()[index] = new TrieNode();
-            }
-            current = current.getChildren()[index];
+            temp = temp.Trie[s.charAt(i)];
         }
-        current.setEndOfWord(true);
+        temp.isEnd = true;
     }
 
-    public boolean search(String word) {
-        TrieNode current = root;
-        for (char c : word.toCharArray()) {
-            int index = c - 'a';
-            if (current.getChildren()[index] == null) {
+    public boolean search(String key) {
+        TrieNode temp = root;
+        for (int i = 0; i < key.length(); i++) {
+            if (temp.Trie[key.charAt(i)] == null) {
                 return false;
             }
-            current = current.getChildren()[index];
+            temp = temp.Trie[key.charAt(i)];
         }
-        return current != null && current.isEndOfWord();
+        return temp.isEnd;
     }
 
-    public TrieNode getRoot() {
-        return root;
+    public List<String> getSuggestions(String key) {
+        TrieNode temp = root;
+        List<String> suggestions = new ArrayList<>();
+        StringBuilder currentPrefix = new StringBuilder();
+
+        for (int i = 0; i < key.length(); i++) {
+            if (temp.Trie[key.charAt(i)] == null) {
+                break;
+            }
+            temp = temp.Trie[key.charAt(i)];
+            currentPrefix.append(key.charAt(i));
+        }
+
+        getSuggestionsUtil(temp, currentPrefix, suggestions);
+        return suggestions;
+    }
+
+    private void getSuggestionsUtil(TrieNode node, StringBuilder currentPrefix, List<String> suggestions) {
+        if (node.isEnd) {
+            suggestions.add(currentPrefix.toString());
+        }
+
+        for (int i = 0; i < 256; i++) {
+            if (node.Trie[i] != null) {
+                currentPrefix.append((char) i);
+                getSuggestionsUtil(node.Trie[i], currentPrefix, suggestions);
+                currentPrefix.deleteCharAt(currentPrefix.length() - 1);
+            }
+        }
     }
 }

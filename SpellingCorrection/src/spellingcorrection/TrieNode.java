@@ -1,24 +1,14 @@
 package spellingcorrection;
 
 public class TrieNode {
-
-    private TrieNode[] children;
-    private boolean isEndOfWord;
+    TrieNode[] Trie;
+    boolean isEnd;
 
     public TrieNode() {
-        children = new TrieNode[26]; // Assuming only lowercase English alphabets
-        isEndOfWord = false;
-    }
-
-    public TrieNode[] getChildren() {
-        return children;
-    }
-
-    public boolean isEndOfWord() {
-        return isEndOfWord;
-    }
-
-    public void setEndOfWord(boolean endOfWord) {
-        isEndOfWord = endOfWord;
+        Trie = new TrieNode[256];
+        for (int i = 0; i < 256; i++) {
+            Trie[i] = null;
+        }
+        isEnd = false;
     }
 }
